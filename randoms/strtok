@@ -1,0 +1,23 @@
+char **_strtok(char **av, char *command, ssize_t read)
+{
+        char *token;
+        int count = 0;
+        if (command[read] == '\n')
+                command[read] = '\0';
+        if (command[read - 1] == '\n')
+                command[read - 1] = '\0';
+
+        token = malloc(sizeof(char) * BUFFER_SIZE);
+        token = c_strtok(command, " ");
+        while (token != NULL)
+        {
+                av = realloc(av, (count + 1) * sizeof(char *));
+                av[count] = _strdup(token);
+                count++;
+                token = c_strtok(NULL, " ");
+        }
+
+        av = realloc(av, (count + 1) * sizeof(char *));
+        av[count] =  NULL;
+        return (av);
+}*/

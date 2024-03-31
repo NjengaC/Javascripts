@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+
+organize() {
+	if [ $# -ne 3 ]; then
+		return
+	else
+		product="$3"
+	fi
+	local first_num="$2"
+	local num=$(echo "$1" | tr ':' '=')
+	local comparison=$(echo "if ($product > $first_num) 1 else 0" | bc)
+	if ((comparison == 1)); then
+		local swap="$first_num"
+		first_num="$product"
+		product="$swap"
+	fi
+	echo "$num$first_num*$product"
+}
+
+
+if [ $# -ne 1 ]; then
+	echo 'usage: RSA <file>'
+	exit 1
+
+else
+	while read file_line; do
+		factors=$(factor "$file_line")
+		organize $factors
+	done < "$1"
+fi
